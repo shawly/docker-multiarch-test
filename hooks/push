@@ -34,32 +34,32 @@ for tag in ${docker_additional_tags[@]}; do
   manifests=""
 
   for arch in ${verified_build_architectures[@]}; do
-    manifests="${manifests} ${IMAGE_NAME}:${$tag}-${arch}"
+    manifests="${manifests} ${IMAGE_NAME}:${tag}-${arch}"
   done
 
-  echo "ℹ️ Creating manifest ${IMAGE_NAME}:${$tag}"
+  echo "ℹ️ Creating manifest ${IMAGE_NAME}:${tag}"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
-  docker manifest create ${IMAGE_NAME}:${$tag} \
+  docker manifest create ${IMAGE_NAME}:${tag} \
                               $manifests
   echo
 
   echo "ℹ️ Annotating manifest"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
   for arch in ${verified_build_architectures[@]}; do
-      docker manifest annotate ${IMAGE_NAME}:${$tag} \
-      ${IMAGE_NAME}:${$tag}-${arch} \
+      docker manifest annotate ${IMAGE_NAME}:${tag} \
+      ${IMAGE_NAME}:${tag}-${arch} \
       --os linux \
       --arch ${docker_to_manifest_map[${arch}]}
   done
 
-  echo "ℹ️ Inspecting manifest ${IMAGE_NAME}:${$tag}-${arch}"
+  echo "ℹ️ Inspecting manifest ${IMAGE_NAME}:${tag}-${arch}"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
-  docker manifest inspect ${IMAGE_NAME}:${$tag}-${arch}
+  docker manifest inspect ${IMAGE_NAME}:${tag}-${arch}
   echo
 
-  echo "ℹ️ Pushing manifest ${IMAGE_NAME}:${$tag}"
+  echo "ℹ️ Pushing manifest ${IMAGE_NAME}:${tag}"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
-  docker manifest push --purge "${IMAGE_NAME}:${$tag}"
+  docker manifest push --purge "${IMAGE_NAME}:${tag}"
   echo
 done
 
