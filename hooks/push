@@ -12,7 +12,7 @@ source hooks/.config
 # 1. push all images
 IMAGE_NAME="${DOCKER_REPO//index.docker.io\/}"
 
-for tag in ${docker_additional_tags[@]}; do
+for tag in ${docker_tags[@]}; do
   if [ ${tag} != ${DOCKER_TAG} ]; then
     for arch in ${verified_build_architectures[@]}; do
       echo "ℹ️ Tagging ${IMAGE_NAME}:${DOCKER_TAG}-${arch} with ${tag}-${arch}"
@@ -30,7 +30,7 @@ docker push --all-tags ${IMAGE_NAME}
 docker image ls
 
 # 2. build and push manifest
-for tag in ${docker_additional_tags[@]}; do
+for tag in ${docker_tags[@]}; do
   manifests=""
 
   for arch in ${verified_build_architectures[@]}; do
