@@ -2,7 +2,7 @@ name: Docker
 
 on:
   push:
-    # Publish `master` as Docker `edge` image.
+    # Publish `main` as Docker `edge` image.
     branches:
       - main
 
@@ -63,16 +63,14 @@ jobs:
       run: |
         DOCKER_IMAGE=shawly/multiarch-test
         VERSION=edge
+        TAGS="${DOCKER_IMAGE}:${VERSION}"
         if [[ $GITHUB_REF == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
-        elif [[ $GITHUB_REF == refs/heads/* ]]; then
+          TAGS="$TAGS,${DOCKER_IMAGE}:latest"
+        elif [[ $GITHUB_REF == refs/heads/* ]] && [[ ${GITHUB_REF#refs/heads/} != main ]]; then
           VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
         elif [[ $GITHUB_REF == refs/pull/* ]]; then
           VERSION=pr-${{ github.event.number }}
-        fi
-        TAGS="${DOCKER_IMAGE}:${VERSION}"
-        if [ "${{ github.event_name }}" = "push" ]; then
-          TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
         fi
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
