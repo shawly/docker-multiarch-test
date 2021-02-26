@@ -1,0 +1,9 @@
+# see hooks/build and hooks/.config
+FROM alpine
+
+RUN echo "TARGETPLATFORM=$TARGETPLATFORM" && \
+  echo "TARGETOS=$TARGETOS" && \
+  echo "TARGETARCH=$TARGETARCH" && \
+  echo "TARGETVARIANT=$TARGETVARIANT" && \
+  uname -ar > /uname.build && \
+  apk --update add file
