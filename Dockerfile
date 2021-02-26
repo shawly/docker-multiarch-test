@@ -4,7 +4,11 @@ FROM ${BASE_IMAGE_PREFIX}alpine
 
 # see hooks/post_checkout
 ARG QEMU_ARCH
-COPY qemu-${QEMU_ARCH}-static /usr/bin
+COPY .gitignore qemu-${QEMU_ARCH}-static* /usr/bin/
 
-RUN uname -ar > /uname.build
-RUN apk --update add file
+RUN echo "TARGETPLATFORM=$TARGETPLATFORM" && \
+  echo "TARGETOS=$TARGETOS" && \
+  echo "TARGETARCH=$TARGETARCH" && \
+  echo "TARGETVARIANT=$TARGETVARIANT" && \
+  uname -ar > /uname.build && \
+  apk --update add file
