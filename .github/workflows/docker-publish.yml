@@ -81,8 +81,8 @@ jobs:
         [ "$VERSION" == "main" ] && VERSION=edge
         [ ${{ github.ref }} == refs/pull/* ] && VERSION=pr-${{ github.event.number }}
 
-        TAGS="${DOCKER_IMAGE}:${VERSION},ghcr.io/${DOCKER_IMAGE}:${VERSION}"  
-        [ "$VERSION" != "edge" ] && TAGS="$TAGS,${DOCKER_IMAGE}:latest,ghcr.io/${DOCKER_IMAGE}:latest"
+        TAGS="${DOCKER_IMAGE}:${VERSION},ghcr.io/docker-${DOCKER_IMAGE}:${VERSION}"  
+        [ "$VERSION" != "edge" ] && TAGS="$TAGS,${DOCKER_IMAGE}:latest,ghcr.io/docker-${DOCKER_IMAGE}:latest"
 
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
